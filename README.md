@@ -7,10 +7,12 @@ A Chatting Site
 - **Framework**: Node JS
 - **Real-time Communication**: Socket.IO
 - **Caching:** Redis for pub-sub queries
+- **Language:** Typescript
 
 ### Frontend
 - **Framework**: Turborepo, Next.js, React.js
 - **Styling**: Tailwind CSS
+- **Language:** Typescript
 
 ## Description
 
