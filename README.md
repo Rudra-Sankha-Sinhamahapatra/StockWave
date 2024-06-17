@@ -1,3 +1,62 @@
+# Texon
+A Chatting Site
+
+## Tech Stacks
+
+### Backend
+- **Framework**: Node JS
+- **Real-time Communication**: Socket.IO
+- **Caching:** Redis for pub-sub queries
+
+### Frontend
+- **Framework**: Turborepo, Next.js, React.js
+- **Styling**: Tailwind CSS
+
+## Description
+
+Texon is a real-time chatting platform built with Node.js and Socket.IO for seamless communication between users. Redis is utilized for pub-sub queries, ensuring efficient message broadcasting and handling. The frontend leverages Turborepo for modular development, Next.js for server-side rendering, React.js for interactive UI components, and Tailwind CSS for responsive styling.
+
+This project aims to provide users with a dynamic and responsive chatting experience, combining robust backend technologies with a modern and efficient frontend architecture.
+
+
+## Getting Started
+
+To run this project locally, follow these steps:
+
+1. Clone this repository or download the root folder.
+   ```bash
+   git clone https://github.com/Rudra-Sankha-Sinhamahapatra/Texon
+   ```
+
+2. Install dependencies for all.
+   ```bash
+   yarn install
+   ```
+
+3. Install dependencies for the frontend.
+   ```bash
+   cd apps/server
+   yarn install
+   ```
+
+4. Install dependencies for the backend.
+   ```bash
+   cd ../web
+   yarn install
+   ```
+
+5. Create a `.env` file in the root of the `server` folder and store your Redis information as per .env.example
+   ```bash
+   touch ../server/.env
+   ```
+
+6. Come Back to the root folder and start your turborpo project locally
+   ```bash
+   cd ../../
+   yarn dev
+   ```
+
+
 # Turborepo starter
 
 This is an official starter Turborepo.
