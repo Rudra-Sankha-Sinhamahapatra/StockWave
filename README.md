@@ -35,13 +35,13 @@ To run this project locally, follow these steps:
    yarn install
    ```
 
-3. Install dependencies for the frontend.
+3. Install dependencies for the backend.
    ```bash
    cd apps/server
    yarn install
    ```
 
-4. Install dependencies for the backend.
+4. Install dependencies for the frontend.
    ```bash
    cd ../web
    yarn install
