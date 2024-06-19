@@ -1,5 +1,5 @@
 {
-  "name": "Texon",
+  "name": "texon",
   "private": true,
   "scripts": {
     "build": "turbo build",
