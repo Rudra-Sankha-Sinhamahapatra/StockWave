@@ -20,7 +20,7 @@ export default function Page() {
     <div className="flex flex-col justify-between min-h-screen bg-gray-800">
       <h1 className="flex justify-center text-white font-bold mt-4">Texon Chat</h1>
       {!isRegistered ? (
-        <div className="flex flex-col items-center mt-4">
+        <div className="flex flex-col items-center my-4">
           <input
             className="p-2 w-full max-w-screen-lg"
             type="text"
@@ -39,7 +39,7 @@ export default function Page() {
         <>
           <div className="flex-grow ml-20">
             <h1 className="text-blue-300 font-bold mt-4">Messages:</h1>
-            <h2 className="text-white font-bold">Server: {serverMsg}</h2>
+            <h2 className="text-white font-bold">Server: {serverMsg} <span className="text-blue-400">{name}</span></h2>
             <ul className="text-white font-semibold">
               {messages.map((msg, index) => (
                 <li key={index}>{msg}</li>
