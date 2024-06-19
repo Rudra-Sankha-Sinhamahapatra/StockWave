@@ -57,21 +57,22 @@ class SocketService {
       // Listen for user registration
       socket.on('event:register', async ({ name }: { name: string }) => {
         console.log(`User Registered: ${name} with Socket ID: ${socket.id}`);
-        await pub.hset("users", socket.id, name);
+        await pub.hset(`user:${socket.id}`, socket.id, name);
+        await pub.expire(`user:${socket.id}`, 6 * 60 * 60);//will expire after 6 hours
       });
 
       // Listen for messages
       socket.on('event:message', async ({ message }: { message: string }) => {
-        const name = await pub.hget("users", socket.id);
+        const name = await pub.hget(`user:${socket.id}`, socket.id);
         console.log("New Message Received from", name, ":", message);
         await pub.publish("MESSAGES", JSON.stringify({ name, message }));
       });
 
       // Handle disconnection
       socket.on('disconnect', async () => {
-        const name = await pub.hget("users", socket.id);
+        const name = await pub.hget(`user:${socket.id}`, socket.id);
         console.log(`User Disconnected: ${name} with Socket ID: ${socket.id}`);
-        await pub.hdel("users", socket.id);
+        await pub.hdel(`user:${socket.id}`, socket.id);
       });
     });
 
