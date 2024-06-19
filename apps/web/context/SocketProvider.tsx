@@ -2,6 +2,14 @@
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import * as dotenv from "dotenv"
+
+dotenv.config();
+const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL
+
+if (!BACKEND_URL) {
+  console.log("NEXT_PUBLIC_BACKEND_URL is not defined in the environment.");
+}
 
 interface SocketProviderProps {
   children?: React.ReactNode;
@@ -53,7 +61,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const _socket = io("http://localhost:8000");
+    const _socket = io(`${BACKEND_URL}`);
     _socket.on("event:message", onMessageReceive);
 
     setSocket(_socket);
