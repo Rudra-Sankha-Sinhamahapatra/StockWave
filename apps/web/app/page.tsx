@@ -6,6 +6,7 @@ import { useSocket } from "../context/SocketProvider";
 export default function Page() {
   const { sendMessage, messages } = useSocket();
   const [message, setMessage] = useState("");
+  const [serverMsg,setServerMsg]=useState("Welcome from Server");
 
   console.log(messages);
   return (
@@ -13,6 +14,7 @@ export default function Page() {
       <h1 className="flex justify-center text-white font-bold mt-4">Texon Chat</h1>
       <div className="flex-grow ml-20">
         <h1 className="text-blue-300 font-bold  mt-4">Messages:</h1>
+        <h2 className="text-white font-bold">Server: {serverMsg}</h2>
         <ul className=" text-white font-semibold">
           {messages.map((msg, index) => (
             <li key={index}>{msg}</li>
