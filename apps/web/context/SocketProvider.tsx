@@ -8,7 +8,8 @@ interface SocketProviderProps {
 }
 
 interface SocketContextProps {
-  sendMessage: (msg: string) => any;
+  registerUser: (name: string) => void;
+  sendMessage: (msg: string) => void;
   messages: string[];
 }
 
@@ -27,6 +28,15 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket>();
   const [messages, setMessages] = useState<string[]>([]);
 
+  const registerUser: SocketContextProps["registerUser"] = useCallback(
+    (name) => {
+      if (socket) {
+        socket.emit("event:register", { name });
+      }
+    },
+    [socket]
+  );
+
   const sendMessage: SocketContextProps["sendMessage"] = useCallback(
     (msg) => {
       console.log("Send Message:", msg);
@@ -37,9 +47,9 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     [socket]
   );
 
-  const onMessageReceive = useCallback((data: { message: string }) => {
-    console.log("From Server Message Received", data.message);
-    setMessages((prev) => [...prev, data.message]);
+  const onMessageReceive = useCallback((data: { name: string, message: string }) => {
+    console.log("From Server Message Received", `${data.name}: ${data.message}`);
+    setMessages((prev) => [...prev, `${data.name}: ${data.message}`]);
   }, []);
 
   useEffect(() => {
@@ -55,7 +65,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   }, [onMessageReceive]);
 
   return (
-    <SocketContext.Provider value={{ sendMessage, messages }}>
+    <SocketContext.Provider value={{ registerUser, sendMessage, messages }}>
       {children}
     </SocketContext.Provider>
   );
