@@ -2,10 +2,10 @@
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import * as dotenv from "dotenv"
+import * as dotenv from "dotenv";
 
 dotenv.config();
-const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 if (!BACKEND_URL) {
   console.log("NEXT_PUBLIC_BACKEND_URL is not defined in the environment.");
@@ -19,6 +19,7 @@ interface SocketContextProps {
   registerUser: (name: string) => void;
   sendMessage: (msg: string) => void;
   messages: string[];
+  error: string | null;
 }
 
 const SocketContext = React.createContext<SocketContextProps | null>(null);
@@ -35,11 +36,16 @@ export const useSocket = () => {
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket>();
   const [messages, setMessages] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const registerUser: SocketContextProps["registerUser"] = useCallback(
     (name) => {
       if (socket) {
-        socket.emit("event:register", { name });
+        socket.emit("event:register", { name }, (response: { status: string; message: string }) => {
+          if (response.status !== "ok") {
+            setError(response.message);
+          }
+        });
       }
     },
     [socket]
@@ -55,7 +61,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     [socket]
   );
 
-  const onMessageReceive = useCallback((data: { name: string, message: string }) => {
+  const onMessageReceive = useCallback((data: { name: string; message: string }) => {
     console.log("From Server Message Received", `${data.name}: ${data.message}`);
     setMessages((prev) => [...prev, `${data.name}: ${data.message}`]);
   }, []);
@@ -73,7 +79,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   }, [onMessageReceive]);
 
   return (
-    <SocketContext.Provider value={{ registerUser, sendMessage, messages }}>
+    <SocketContext.Provider value={{ registerUser, sendMessage, messages, error }}>
       {children}
     </SocketContext.Provider>
   );
